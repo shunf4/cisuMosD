@@ -345,6 +345,8 @@ open class MusicService : BaseMediaService() {
         /* 是否是恢复 */
         private var recover = false
 
+        private var dataSource: Any? = null
+
         /* 来自恢复的歌曲进度 */
         private var recoverProgress = 0
 
@@ -429,11 +431,13 @@ open class MusicService : BaseMediaService() {
                                 return@getUrlProxy
                             } else {
                                 setDataSource(it)
+                                musicController.dataSource = it
                             }
                         }
                         is Uri -> {
                             try {
                                 setDataSource(applicationContext, it)
+                                musicController.dataSource = it.toString()
                             } catch (e: Exception) {
                                 onError(mediaPlayer, -1, 0)
                                 return@getUrlProxy
@@ -775,6 +779,11 @@ open class MusicService : BaseMediaService() {
         fun getTimingOffMode() = timingOffMode
         fun setTimingOffMode(newOne: Boolean) {
             timingOffMode = newOne
+        }
+
+        fun getDataSource() = dataSource
+        fun setDataSource(newOne: Any) {
+            dataSource = newOne
         }
     }
 

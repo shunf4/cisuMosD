@@ -16,6 +16,7 @@ data class StandardSongData(
     val id: String?, // 歌曲 id
 
     val name: String?, // 歌曲名称
+    val album: String?,
     val imageUrl: String?, // 图片 url
     val artists: ArrayList<StandardArtistData>?, // 艺术家
 
@@ -30,7 +31,7 @@ data class StandardSongData(
 ) : Parcelable {
 
     constructor() : this(SOURCE_NETEASE,
-    null, null, null, null, null, null, null)
+    null, null, null, null, null, null, null, null)
 
     /**
      * 标准艺术家数据

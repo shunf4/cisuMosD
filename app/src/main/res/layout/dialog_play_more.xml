@@ -48,6 +48,12 @@
             app:text="@string/song_info"/>
 
         <com.dirror.music.widget.ItemLayout
+            android:id="@+id/equalizer"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:text="@string/equalizer"/>
+
+        <com.dirror.music.widget.ItemLayout
             android:id="@+id/timeClose"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -55,6 +61,18 @@
             app:text="定时关闭">
 
         </com.dirror.music.widget.ItemLayout>
+
+        <com.dirror.music.widget.ItemLayout
+            android:id="@+id/similarSongs"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:text="@string/similarSongs"/>
+
+        <com.dirror.music.widget.ItemLayout
+            android:id="@+id/similarPlaylists"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:text="@string/similarPlaylists"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

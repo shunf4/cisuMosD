@@ -58,11 +58,13 @@ object LocalMusic {
                 val artistColumn = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST) // 艺术家
                 val dataColumn = cursor.getColumnIndex(MediaStore.Audio.Media.DATA) // 路径
                 val albumIdColumn = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID) // 专辑 id
+                val albumColumn = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM) // 专辑 id
                 val sizeColumn = cursor.getColumnIndex(MediaStore.Audio.Media.SIZE) // 大小
                 do {
                     val id = cursor.getLong(songIdColumn)
                     val data = cursor.getString(dataColumn)
                     val albumId = cursor.getLong(albumIdColumn)
+                    val album = cursor.getString(albumColumn)
                     val title = cursor.getString(titleColumn)
                     var artist = cursor.getString(artistColumn)
                     // val bitrate = cursor.getLong(bitrateColumn)
@@ -106,6 +108,7 @@ object LocalMusic {
                             SOURCE_LOCAL,
                             id.toString(),
                             title,
+                            album,
                             coverUri.toString(),
                             artistList,
                             null,

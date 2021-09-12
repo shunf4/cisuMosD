@@ -40,8 +40,9 @@ import com.dirror.music.service.MusicService
 import com.dirror.music.service.MusicServiceConnection
 import com.dirror.music.util.*
 import com.tencent.mmkv.MMKV
-import com.umeng.analytics.MobclickAgent
-import com.umeng.commonsdk.UMConfigure
+import ealvatag.tag.TagOptionSingleton
+//import com.umeng.analytics.MobclickAgent
+//import com.umeng.commonsdk.UMConfigure
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -120,6 +121,8 @@ class MyApp : Application() {
                 realIP = ip
             }
         }
+
+        TagOptionSingleton.getInstance().isAndroid = true;
     }
 
     /**
@@ -128,9 +131,7 @@ class MyApp : Application() {
     private fun checkSecure() {
         if (Secure.isSecure()) {
             // 初始化友盟
-            UMConfigure.init(context, UM_APP_KEY, "", UMConfigure.DEVICE_TYPE_PHONE, "")
             // 选用 AUTO 页面采集模式
-            MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
             // 开启音乐服务
             startMusicService()
         } else {

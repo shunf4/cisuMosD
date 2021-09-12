@@ -20,6 +20,12 @@
             app:text="@string/song_id" />
 
         <com.dirror.music.widget.ValueView
+            android:id="@+id/valueViewAlbum"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            app:text="@string/album" />
+
+        <com.dirror.music.widget.ValueView
             android:id="@+id/valueViewSource"
             android:layout_width="match_parent"
             android:layout_height="42dp"

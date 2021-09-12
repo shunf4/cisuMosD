@@ -2,6 +2,8 @@ package com.dirror.music.data
 
 import com.dirror.music.music.standard.data.*
 import com.dirror.music.util.Utils
+import java.util.*
+import kotlin.collections.ArrayList
 
 class NeteaseSearchResult(
     val code: Int,
@@ -63,6 +65,40 @@ data class Result(
     }
 }
 
+data class NeteaseSimilarResult(
+    var code: Int,
+    val songs: List<SongLong>?,
+    val playlists: List<Playlist>?,
+) {
+    fun switchToStandardSongs():List<StandardSongData> {
+        val list = ArrayList<StandardSongData>()
+        if (songs != null) {
+            for (song in songs) {
+                list.add(song.switchToStandard())
+            }
+        }
+        return list
+    }
+
+    fun switchToStandardPlaylist():List<StandardPlaylist> {
+        val list = ArrayList<StandardPlaylist>()
+        if (playlists != null) {
+            for (playlist in playlists) {
+                list.add(playlist.toStandardPlaylist())
+            }
+        }
+        return list
+    }
+
+    fun switchToStandardAlbums():List<StandardAlbum> = Collections.emptyList()
+
+    fun switchToStandardSingers(): List<StandardSinger> = Collections.emptyList()
+
+    fun toStandardResult(): StandardSearchResult {
+        return StandardSearchResult(switchToStandardSongs(), switchToStandardPlaylist(), switchToStandardAlbums(), switchToStandardSingers())
+    }
+}
+
 data class Playlist(
     val id: Long,
     val name: String,
@@ -82,6 +118,31 @@ data class Creator(
     val nickname: String
 )
 
+data class SongLong(
+    val album: Al?,
+    val artists: List<Ar>,
+    val fee: Int,
+    val id: Long,
+    val name: String,
+    val privilege: Privilege?,
+) {
+    fun switchToStandard():StandardSongData {
+        return StandardSongData(SOURCE_NETEASE, id.toString(), name, album?.name, album?.getImageUrl(), getArtList(), getNeteaseInfo(), null, null)
+    }
+
+    private fun getNeteaseInfo(): StandardSongData.NeteaseInfo {
+        return StandardSongData.NeteaseInfo(fee, privilege?.pl, 0, privilege?.maxbr)
+    }
+
+    private fun getArtList():ArrayList<StandardSongData.StandardArtistData> {
+        val list = ArrayList<StandardSongData.StandardArtistData>()
+        for (art in artists) {
+            list.add(art.switchToStandard())
+        }
+        return list
+    }
+}
+
 data class Song(
     val al: Al?,
     val ar: List<Ar>,
@@ -92,7 +153,7 @@ data class Song(
     val privilege: Privilege?,
 ) {
     fun switchToStandard():StandardSongData {
-        return StandardSongData(SOURCE_NETEASE, id.toString(), name, al?.getImageUrl(), getArtList(), getNeteaseInfo(), null, null)
+        return StandardSongData(SOURCE_NETEASE, id.toString(), name, al?.name, al?.getImageUrl(), getArtList(), getNeteaseInfo(), null, null)
     }
 
     private fun getNeteaseInfo(): StandardSongData.NeteaseInfo {

@@ -22,6 +22,7 @@ data class CompatSearchData(
          * 专辑
          */
         data class CompatAlbumData(
+            val name: String,
             val picUrl: String,
             // val artist: CompatArtistData
         )
@@ -62,6 +63,7 @@ fun compatSearchDataToStandardPlaylistData(compatSearchData: CompatSearchData): 
                 SOURCE_NETEASE,
                 song.id.toString(),
                 song.name,
+                song.al.name,
                 song.al.picUrl,
                 standardArtistDataList,
                 NeteaseInfo(

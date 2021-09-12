@@ -42,6 +42,7 @@ object SearchSong {
 
     data class QQSearchSong(
         val albummid: String,
+        val albumname: String,
         val songname: String, // 歌名
         val songmid: String,
         val singer: ArrayList<StandardArtistData>
@@ -51,6 +52,7 @@ object SearchSong {
                 SOURCE_QQ,
                 songmid,
                 songname,
+                albumname,
                 albummid, // 歌单 id
                 singer,
                 null,

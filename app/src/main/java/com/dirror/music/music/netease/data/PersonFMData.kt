@@ -26,6 +26,7 @@ fun PersonFMData.toSongList(): ArrayList<StandardSongData> {
             SOURCE_NETEASE,
             it.id.toString(),
             it.name,
+            it.album.name,
             it.album.picUrl,
             it.artists,
             null,

@@ -131,4 +131,7 @@
     <string name="auto_change_resource">Enable Auto Change Resource</string>
     <string name="http_cache">Local Playlist Cache</string>
     <string name="clear_http_cache">Clear Local Playlist Cache</string>
+    <string name="similarSongs">Similar Songs</string>
+    <string name="similarPlaylists">Similar Playlists</string>
+    <string name="album">Album</string>
 </resources>

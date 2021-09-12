@@ -1,5 +1,6 @@
 package com.dirror.music.service
 
+import android.util.Log
 import com.dirror.music.MyApp
 import com.dirror.music.data.LyricViewData
 import com.dirror.music.music.kuwo.SearchSong
@@ -31,6 +32,11 @@ object ServiceSongUrl {
 
     inline fun getUrl(song: StandardSongData, crossinline success: (Any?) -> Unit) {
         when (song.source) {
+            SOURCE_LOCAL -> {
+                GlobalScope.launch {
+                    success.invoke(song.localInfo?.data)
+                }
+            }
             SOURCE_NETEASE -> {
                 GlobalScope.launch {
                     if (song.neteaseInfo?.pl == 0) {

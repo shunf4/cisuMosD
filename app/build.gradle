@@ -5,6 +5,10 @@ plugins {
     id 'kotlin-kapt'
 }
 
+if (file("sign.gradle").exists()) {
+    apply from: 'sign.gradle'
+}
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -28,7 +32,7 @@ android {
     defaultConfig {
         applicationId "com.dirror.music"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 28
         versionCode 748
         versionName "3.11.1"
 
@@ -37,7 +41,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a' // 'armeabi-v7a', 'x86'
+            // abiFilters 'armeabi-v7a', 'arm64-v8a' // 'armeabi-v7a', 'x86'
         }
 
     }
@@ -48,9 +52,30 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (file("sign.gradle").exists()) {
+                // Local environment
+                signingConfig signingConfigs.release
+                debuggable true
+
+                /* sign.gradle is like:
+android {
+    signingConfigs {
+        release {
+            keyAlias 'aliasxxx'
+            keyPassword 'passwordxxx'
+            storeFile file('../xxx.jks')
+            storePassword 'passwordxxx'
+        }
+    }
+}
+GitHub config is like:
+SIGNING_KEY:
+`openssl base64 < some_signing_key.jks | tr -d '\n'`
+ALIAS:
+KEY_STORE_PASSWORD:
+KEY_PASSWORD:
+*/
+            }
         }
     }
 
@@ -94,9 +119,6 @@ dependencies {
     implementation 'com.squareup.okio:okio:2.10.0'
     implementation 'org.jsoup:jsoup:1.13.1'
     implementation 'com.tencent:mmkv-static:1.2.2'
-    implementation 'com.umeng.umsdk:common:9.3.8'
-    implementation 'com.umeng.umsdk:asms:1.2.2'
-    implementation 'com.umeng.umsdk:crash:0.0.4'
     implementation 'com.airbnb.android:lottie:3.6.0'
     implementation 'ren.qinc.edgetranslucent:lib:0.0.3'
     implementation 'androidx.room:room-runtime:2.2.5'
@@ -108,4 +130,6 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.github.chrisbanes.photoview:library:1.2.4'
     implementation "com.leinardi.android:speed-dial:3.2.0"
+    implementation 'com.ealva:ealvatag:0.4.6'
+    implementation 'com.google.guava:guava:27.0.1-android'
 }

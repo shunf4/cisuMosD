@@ -13,10 +13,10 @@
         <item name="android:windowBackground">@color/colorPageBackground</item>
 
         <!-- v29 禁用系统黑暗模式 -->
-        <item name="android:forceDarkAllowed">false</item>
+<!--        <item name="android:forceDarkAllowed">false</item>-->
 
-        <item name="android:enforceStatusBarContrast">false</item>
-        <item name="android:enforceNavigationBarContrast">false</item>
+<!--        <item name="android:enforceStatusBarContrast">false</item>-->
+<!--        <item name="android:enforceNavigationBarContrast">false</item>-->
 
     </style>
 </resources>

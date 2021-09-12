@@ -29,6 +29,10 @@ object SearchLyric {
             }
         }
 
+        if (url.isEmpty()) {
+            return
+        }
+
         MagicHttp.OkHttpManager().newGet(url, { response ->
             var lyric = response
 

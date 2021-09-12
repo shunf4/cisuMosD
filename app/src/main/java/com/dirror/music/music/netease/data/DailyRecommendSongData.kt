@@ -41,6 +41,7 @@ fun ArrayList<DailyRecommendSongData.DataData.DailySongsData>.toStandardSongData
             SOURCE_NETEASE,
             it.id,
             it.name,
+            it.al.name,
             it.al.picUrl,
             it.ar,
             StandardSongData.NeteaseInfo(

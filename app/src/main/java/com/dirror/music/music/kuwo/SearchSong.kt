@@ -38,6 +38,7 @@ object SearchSong {
                         KuwoSearchData.SongData(
                             songInfo.getIntOrNull("rid").toString(),
                             songInfo.getStr("name", ""),
+                            songInfo.getStr("album", ""),
                             songInfo.getStr("artist", ""),
                             songInfo.getStr("pic", "")
                         ).switchToStandard()
@@ -136,6 +137,7 @@ object SearchSong {
         data class SongData(
             val MUSICRID: String,
             val NAME: String,
+            val ALBUM: String,
             val ARTIST: String,
             val hts_MVPIC: String // 图片
         ) {
@@ -144,6 +146,7 @@ object SearchSong {
                     SOURCE_KUWO,
                     MUSICRID,
                     NAME,
+                    ALBUM,
                     hts_MVPIC,
                     genArtistList(),
                     null,

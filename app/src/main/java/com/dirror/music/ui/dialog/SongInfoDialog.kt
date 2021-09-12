@@ -32,6 +32,7 @@ class SongInfoDialog(
 
         with(binding) {
             valueViewId.setValue(songData.id ?: "") // ID
+            valueViewAlbum.setValue("未知")
             valueViewSource.setValue("未知")
             valueViewBitrate.setValue("未知")
             valueViewSize.setValue("未知")
@@ -39,6 +40,7 @@ class SongInfoDialog(
             valueViewData.setValue("未知")
 
             songData.let {
+                valueViewAlbum.setValue(songData.album ?: "")
                 when (it.source) {
                     SOURCE_NETEASE -> {
                         MyApp.cloudMusicManager.getSongInfo(it.id ?: "") { data ->

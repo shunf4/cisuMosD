@@ -25,7 +25,17 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
 
         // 数据库版本
-        const val DATABASE_VERSION = 4
+        const val DATABASE_VERSION = 10004
+
+        /**
+         * 718
+         */
+        private val MIGRATION_4_10004 = object : Migration(4, 10004) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("alter table MyFavoriteData add column album TEXT")
+                database.execSQL("alter table PlayQueueData add column album TEXT")
+            }
+        }
 
         /**
          * 718
@@ -87,7 +97,8 @@ abstract class AppDatabase : RoomDatabase() {
                 .addMigrations(
                     MIGRATION_1_2,
                     MIGRATION_2_3,
-                    MIGRATION_3_4
+                    MIGRATION_3_4,
+                    MIGRATION_4_10004,
                 )
                 // .fallbackToDestructiveMigration() // 上线移除
                 .build().apply {

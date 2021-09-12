@@ -77,6 +77,7 @@ data class PlaylistDetail(
                     SOURCE_NETEASE,
                     song.id.toString(),
                     song.name,
+                    song.al?.name,
                     song.al?.picUrl,
                     standardArtistDataList,
                     StandardSongData.NeteaseInfo(

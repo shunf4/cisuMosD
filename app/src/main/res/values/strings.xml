@@ -131,4 +131,7 @@
     <string name="auto_change_resource">自动换源播放</string>
     <string name="http_cache">本地歌单缓存</string>
     <string name="clear_http_cache">清除本地歌单缓存</string>
+    <string name="similarSongs">相似歌曲</string>
+    <string name="similarPlaylists">相似播放列表</string>
+    <string name="album">专辑</string>
 </resources>

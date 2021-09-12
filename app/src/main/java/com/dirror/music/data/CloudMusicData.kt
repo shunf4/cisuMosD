@@ -65,6 +65,7 @@ data class TrackIdsData(
 @Keep
 data class CommentData(
     val hotComments: List<HotComment>, // 热门评论
+    val comments: List<HotComment>, // 热门评论
     val total: Long // 总评论
 )
 

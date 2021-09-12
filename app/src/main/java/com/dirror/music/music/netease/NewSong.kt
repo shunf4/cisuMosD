@@ -31,6 +31,7 @@ object NewSong {
                         SOURCE_NETEASE,
                         it.id.toString(),
                         it.name,
+                        it.song.album.name,
                         it.picUrl,
                         standardArtistData,
                         StandardSongData.NeteaseInfo(

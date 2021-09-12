@@ -36,6 +36,7 @@ object SearchUtil {
                     SOURCE_NETEASE,
                     it[index].id.toString(),
                     it[index].name,
+                    it[index].album.name,
                     it[index].album.artist.img1v1Url,
                     it[index].artists,
                     NeteaseInfo(it[index].fee,
@@ -73,6 +74,7 @@ data class SearchUtilSongData(
 )
 
 data class SearchUtilAlbumData(
+    val name: String,
     val artist: SearchUtilArtistData
 )
 

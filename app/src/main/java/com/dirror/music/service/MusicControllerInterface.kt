@@ -26,7 +26,7 @@ interface MusicControllerInterface {
      * 播放歌曲
      * @param playNext 播放失败时是否播放下一首
      */
-    fun playMusic(song: StandardSongData, playNext: Boolean = true)
+    fun playMusic(song: StandardSongData, playNext: Boolean = false)
 
     /**
      * 改变播放状态

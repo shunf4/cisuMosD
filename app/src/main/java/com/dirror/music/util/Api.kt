@@ -82,6 +82,18 @@ object Api {
         return result?.result?.toStandardResult()
     }
 
+    suspend fun getSimilarSongs(songId:String): StandardSearchResult? {
+        val url = "$API_NEW/simi/song?id=$songId"
+        val result = HttpUtils.get(url, NeteaseSimilarResult::class.java)
+        return result?.toStandardResult()
+    }
+
+    suspend fun getSimilarPlaylists(songId:String): StandardSearchResult? {
+        val url = "$API_NEW/simi/playlist?id=$songId"
+        val result = HttpUtils.get(url, NeteaseSimilarResult::class.java)
+        return result?.toStandardResult()
+    }
+
     suspend fun getAlbumSongs(id:Long): StandardAlbumPackage? {
         val url = "$API_NEW/album?id=${id}"
         HttpUtils.get(url, NeteaseAlbumResult::class.java)?.let {
@@ -207,6 +219,7 @@ object Api {
                         com.dirror.music.music.kuwo.SearchSong.KuwoSearchData.SongData(
                             songInfo.getIntOrNull("rid").toString(),
                             songInfo.getStr("name", ""),
+                            songInfo.getStr("album", ""),
                             songInfo.getStr("artist", ""),
                             songInfo.getStr("pic", "")
                         ).switchToStandard()

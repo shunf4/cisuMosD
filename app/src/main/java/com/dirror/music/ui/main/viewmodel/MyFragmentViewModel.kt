@@ -28,7 +28,7 @@ class MyFragmentViewModel : ViewModel() {
         if (User.uid != 0L) {
             val uid = User.uid.toString()
             GlobalScope.launch {
-                HttpUtils.get("$API_MUSIC_ELEUU/user/playlist?uid=$uid", UserPlaylistData::class.java, useCache)?.apply {
+                HttpUtils.get("$API_MUSIC_ELEUU/user/playlist?uid=$uid&limit=1000", UserPlaylistData::class.java, useCache)?.apply {
                     withContext(Dispatchers.Main) {
                         userPlaylistList.value = playlist
                     }

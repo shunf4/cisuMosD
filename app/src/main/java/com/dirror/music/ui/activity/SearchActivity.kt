@@ -69,6 +69,10 @@ class SearchActivity : BaseActivity() {
             isFocusable = true
             isFocusableInTouchMode = true
             requestFocus()
+
+            val searchString = intent.getStringExtra("SEARCH_STRING") ?: return@apply
+            setText(searchString)
+            search()
         }
         // 获取推荐关键词
         MyApp.cloudMusicManager.getSearchDefault {
@@ -206,6 +210,61 @@ class SearchActivity : BaseActivity() {
         inputMethodManager.hideSoftInputFromWindow(this.window?.decorView?.windowToken, 0)
 
         var keywords = binding.etSearch.text.toString()
+
+        if (keywords.startsWith("@ne_similar_songs:")) {
+            keywords = keywords.replace("@ne_similar_songs:", "")
+
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    searchViewModel.searchEngine.value = SearchViewModel.ENGINE_NETEASE
+
+                    val singleTypeItem = binding.searchTypeView.actionItems.first { it.id == R.id.search_type_single }
+                    binding.apply {
+                        searchTypeView.setMainFabClosedDrawable(singleTypeItem.getFabImageDrawable(this@SearchActivity))
+                        searchType = SearchType.getSearchType(singleTypeItem.id)
+                        mmkv.encode(Config.SEARCH_TYPE, searchType.toString())
+                    }
+                }
+
+                GlobalScope.launch {
+                    val result = Api.getSimilarSongs(keywords)
+                    if (result != null) {
+                        withContext(Dispatchers.Main) {
+                            initRecycleView(result.songs)
+                        }
+                    }
+                }
+            }
+            binding.clPanel.visibility = View.GONE
+            return
+        }
+        if (keywords.startsWith("@ne_similar_playlists:")) {
+            keywords = keywords.replace("@ne_similar_playlists:", "")
+
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    searchViewModel.searchEngine.value = SearchViewModel.ENGINE_NETEASE
+
+                    val singleTypeItem = binding.searchTypeView.actionItems.first { it.id == R.id.search_type_playlist }
+                    binding.apply {
+                        searchTypeView.setMainFabClosedDrawable(singleTypeItem.getFabImageDrawable(this@SearchActivity))
+                        searchType = SearchType.getSearchType(singleTypeItem.id)
+                        mmkv.encode(Config.SEARCH_TYPE, searchType.toString())
+                    }
+                }
+
+                GlobalScope.launch {
+                    val result = Api.getSimilarPlaylists(keywords)
+                    if (result != null) {
+                        withContext(Dispatchers.Main) {
+                            initPlaylist(result.playlist)
+                        }
+                    }
+                }
+            }
+            binding.clPanel.visibility = View.GONE
+            return
+        }
         // 内部酷我
         if (keywords.startsWith("。")) {
             keywords.replace("。", "")

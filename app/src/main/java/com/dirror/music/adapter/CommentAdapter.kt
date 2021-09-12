@@ -14,6 +14,7 @@ import com.dirror.music.MyApp
 import com.dirror.music.R
 import com.dirror.music.data.CommentData
 import com.dirror.music.util.msTimeToFormatDate
+import kotlin.math.min
 
 /**
  * 评论 Adapter
@@ -35,29 +36,35 @@ class CommentAdapter(private val commentData: CommentData, private val activity:
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val comment = if (position < commentData.hotComments.size) {
+            commentData.hotComments[position]
+        } else {
+            commentData.comments[position]
+        }
+
         holder.apply {
-            tvName.text = commentData.hotComments[position].user.nickname
-            tvContent.text = commentData.hotComments[position].content
-            tvLikedCount.text = commentData.hotComments[position].likedCount.toString()
-            tvTime.text = msTimeToFormatDate(commentData.hotComments[position].time)
-            ivCover.load(commentData.hotComments[position].user.avatarUrl) {
+            tvName.text = comment.user.nickname
+            tvContent.text = comment.content
+            tvLikedCount.text = comment.likedCount.toString()
+            tvTime.text = msTimeToFormatDate(comment.time)
+            ivCover.load(comment.user.avatarUrl) {
                 transformations(CircleCropTransformation())
                 size(ViewSizeResolver(ivCover))
                 crossfade(300)
             }
 
             ivCover.setOnClickListener {
-                MyApp.activityManager.startUserActivity(activity , commentData.hotComments[position].user.userId)
+                MyApp.activityManager.startUserActivity(activity , comment.user.userId)
             }
 
             tvName.setOnClickListener {
-                MyApp.activityManager.startUserActivity(activity , commentData.hotComments[position].user.userId)
+                MyApp.activityManager.startUserActivity(activity , comment.user.userId)
             }
         }
     }
 
     override fun getItemCount(): Int {
-        return commentData.hotComments.size
+        return commentData.hotComments.size + min(10, commentData.comments.size)
     }
 
 }
