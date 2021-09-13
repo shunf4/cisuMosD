@@ -39,7 +39,7 @@ class CommentAdapter(private val commentData: CommentData, private val activity:
         val comment = if (position < commentData.hotComments.size) {
             commentData.hotComments[position]
         } else {
-            commentData.comments[position]
+            commentData.comments[position - commentData.hotComments.size]
         }
 
         holder.apply {

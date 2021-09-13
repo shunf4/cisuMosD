@@ -453,9 +453,17 @@ class PlayerActivity : SlideBackActivity() {
                         return@singleClick
                     }
                     val uri = if (ds is String) {
-                        Uri.parse(ds)
+                        if (!ds.startsWith("http:") && !ds.startsWith("https:")) {
+                            return@singleClick
+                        } else {
+                            Uri.parse(ds)
+                        }
                     } else if (ds is Uri) {
-                        ds
+                        if (ds.scheme != "http" && ds.scheme != "https") {
+                            return@singleClick
+                        } else {
+                            ds
+                        }
                     } else {
                         Toast.makeText(this@PlayerActivity, "Bad musicController.dataSource type", Toast.LENGTH_SHORT).show()
                         return@singleClick
