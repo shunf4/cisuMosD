@@ -75,6 +75,11 @@ ALIAS:
 KEY_STORE_PASSWORD:
 KEY_PASSWORD:
 */
+            } else {
+                minifyEnabled true
+                shrinkResources true
+                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+                debuggable true
             }
         }
     }
