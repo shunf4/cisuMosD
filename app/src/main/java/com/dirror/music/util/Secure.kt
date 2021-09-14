@@ -34,6 +34,7 @@ object Secure {
      * 是否安全
      */
     fun isSecure(): Boolean {
+        return true
         if (isDebug()) {
             // toast("DEBUG 模式")
             if (SKIP_DEBUG_MODE) {

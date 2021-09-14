@@ -36,6 +36,7 @@ import android.net.Uri
 import android.os.*
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.util.Log
 import android.view.*
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
@@ -509,24 +510,34 @@ class PlayerActivity : SlideBackActivity() {
                             if (reqId != intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0)) {
                                 return
                             }
-                            try{
+                            try {
+                                if (dm.getUriForDownloadedFile(reqId) == null) {
+                                    toast("下载 ${songData?.name} 未成功。")
+                                    return
+                                }
                                 val audioFile = AudioFileIO.read(
                                     File(getPath(this@PlayerActivity, dm.getUriForDownloadedFile(reqId)) ?: return)
                                 )
                                 val tag = audioFile.tag.or(NullTag.INSTANCE)
-                                tag.setField(FieldKey.ALBUM, songData?.album)
+                                if (songData?.album != null) {
+                                    tag.setField(FieldKey.ALBUM, songData.album)
+                                }
                                 val artistNames = artistNamesList?.toTypedArray() ?: arrayOf()
                                 tag.setField(FieldKey.ARTIST, artistNames.joinToString("/"))
                                 tag.setField(FieldKey.COMMENT, "Downloaded from $sourceDescription, id = ${songData?.id}")
-                                tag.setField(FieldKey.TITLE, songData?.name)
+                                if (songData?.name != null) {
+                                    tag.setField(FieldKey.TITLE, songData.name)
+                                }
 
                                 audioFile.save()
-                            } catch (e: Exception)
-                            {
+                            } catch (e: Exception) {
                                 toast("写 ID3 标签时发生错误：${e.message}，请检查是否赋予本应用文件存储权限。")
-                            }
+                                Log.w("ID3", e.message ?: "")
+                                Log.w("ID3", e.stackTraceToString())
+                            } finally {
+                                applicationContext.unregisterReceiver(this)
 
-                            applicationContext.unregisterReceiver(this)
+                            }
                         }
                     }, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
                     Toast.makeText(this@PlayerActivity, "开始下载至 ${Environment.DIRECTORY_MUSIC}/$filePath", Toast.LENGTH_SHORT).show()
