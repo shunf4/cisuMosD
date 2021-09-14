@@ -487,7 +487,7 @@ class PlayerActivity : SlideBackActivity() {
                         setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                     }
 
-                    if (androidx.core.content.ContextCompat.checkSelfPermission(this@PlayerActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
+                    if (androidx.core.content.ContextCompat.checkSelfPermission(this@PlayerActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == android.content.pm.PackageManager.PERMISSION_DENIED
                         && ActivityCompat.shouldShowRequestPermissionRationale(
                             this@PlayerActivity,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE
