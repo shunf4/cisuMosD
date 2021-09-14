@@ -487,8 +487,8 @@ class PlayerActivity : SlideBackActivity() {
                         setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                     }
 
-                    val reqId = dm.enqueue(req)
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    if (androidx.core.content.ContextCompat.checkSelfPermission(this@PlayerActivity, Manifest.permission.REQUESTED_PERMISSION) == PackageManager.PERMISSION_DENIED
+                        && ActivityCompat.shouldShowRequestPermissionRationale(
                             this@PlayerActivity,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE
                         )
@@ -498,6 +498,8 @@ class PlayerActivity : SlideBackActivity() {
                             100
                         )
                     }
+                    
+                    val reqId = dm.enqueue(req)
                     
                     applicationContext.registerReceiver(object : BroadcastReceiver() {
                         override fun onReceive(context: Context, intent: Intent) {
