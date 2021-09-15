@@ -413,6 +413,7 @@ open class MusicService : BaseMediaService() {
             // 初始化
             mediaPlayer.apply {
                 ServiceSongUrl.getUrlProxy(song) {
+                    mediaPlayer.reset()
                     if (it == null || it is String && it.isEmpty()) {
                         if (playNext) {
                             toast("当前歌曲不可用, 播放下一首")
@@ -430,6 +431,7 @@ open class MusicService : BaseMediaService() {
                                 toast("移动网络下已禁止播放，请在设置中打开选项（注意流量哦）")
                                 return@getUrlProxy
                             } else {
+                                Log.w("setDataSource", "${android.os.Process.myTid()}")
                                 setDataSource(it)
                                 musicController.dataSource = it
                             }
