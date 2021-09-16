@@ -134,4 +134,10 @@
     <string name="similarSongs">相似歌曲</string>
     <string name="similarPlaylists">相似播放列表</string>
     <string name="album">专辑</string>
+    <string name="sync">同步</string>
+    <string name="sync_to_file">同步本地喜欢列表至文件的相对路径（如 Documents/1.json）</string>
+    <string name="sync_import">从文件同步（导入）</string>
+    <string name="sync_export">从文件同步（导出）</string>
+    <string name="confirm_remove_all_in_local_favorite">确定要清除本地喜欢列表？</string>
+    <string name="clear_local_favorite">清除本地喜欢</string>
 </resources>

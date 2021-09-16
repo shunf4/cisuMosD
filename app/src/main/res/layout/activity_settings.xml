@@ -162,6 +162,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </com.dirror.music.widget.ItemLayout>
 
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemClearLocalFavorite"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:text="@string/clear_local_favorite" />
+
             <TextView
                 style="@style/style_settings_title"
                 android:text="@string/local_music" />
@@ -404,8 +410,14 @@
                 android:id="@+id/itemNeteaseCloudMusicApi"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:layout_marginBottom="12dp"
                 app:text="NeteaseCloudMusicApi" />
+
+            <com.dirror.music.widget.ItemLayout
+                android:id="@+id/itemSync"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                app:text="@string/sync" />
 
         </LinearLayout>
     </ScrollView>

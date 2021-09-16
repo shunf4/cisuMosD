@@ -1,6 +1,7 @@
 package com.dirror.music.ui.playlist
 
 import android.content.Intent
+import android.os.Environment
 import android.view.View
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -8,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.size.ViewSizeResolver
+import com.dirror.music.MyApp.Companion.mmkv
 import com.dirror.music.R
 import com.dirror.music.adapter.SongAdapter
 import com.dirror.music.data.SearchType
@@ -16,6 +18,8 @@ import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.dialog.SongMenuDialog
 import com.dirror.music.util.*
+import java.io.*
+import java.lang.Exception
 import kotlin.concurrent.thread
 
 /**
@@ -86,6 +90,13 @@ class SongPlaylistActivity: BaseActivity() {
                 } else {
                     binding.titleBar.setTitleBarText(getString(R.string.playlist))
                 }
+            }
+        }
+
+        if (intent.getIntExtra(EXTRA_TAG, TAG_NETEASE) == TAG_LOCAL_MY_FAVORITE) {
+            binding.apply {
+                ivImport.visibility = View.VISIBLE
+                ivExport.visibility = View.VISIBLE
             }
         }
     }
@@ -165,6 +176,59 @@ class SongPlaylistActivity: BaseActivity() {
                             }
                     }
 
+                }
+            }
+            ivExport.setOnClickListener {
+                val syncPath = mmkv.decodeString(Config.SYNC_FILE_PATH, "")
+                if (syncPath.isEmpty()) {
+                    toast("请先在设置-同步中设置同步文件路径。")
+                    return@setOnClickListener
+                }
+                try {
+                    val sdcard = Environment.getExternalStorageDirectory();
+                    val syncFile = File(sdcard, syncPath)
+                    BufferedWriter(FileWriter(syncFile)).apply {
+                        MyFavorite.export(this, { count ->
+                            runOnUiThread {
+                                close()
+                                toast("导出了 $count 首歌曲。")
+                            }
+                        }, { e ->
+                            runOnUiThread {
+                                close()
+                                toast("导出错误：${e.message}}。请检查是否赋予本应用文件权限。")
+                            }
+                        })
+                    }
+                } catch (e: Exception) {
+                    toast("导出错误：${e.message}}。请检查是否赋予本应用文件权限。")
+                }
+            }
+            ivImport.setOnClickListener {
+                val syncPath = mmkv.decodeString(Config.SYNC_FILE_PATH, "")
+                if (syncPath.isEmpty()) {
+                    toast("请先在设置-同步中设置同步文件路径。")
+                    return@setOnClickListener
+                }
+                try {
+                    val sdcard = Environment.getExternalStorageDirectory();
+                    val syncFile = File(sdcard, syncPath)
+                    BufferedReader(FileReader(syncFile)).apply {
+                        MyFavorite.import(this, { count ->
+                            runOnUiThread {
+                                close()
+                                songPlaylistViewModel.update()
+                                toast("导入了 $count 首歌曲。")
+                            }
+                        }, { e ->
+                            runOnUiThread {
+                                close()
+                                toast("导入错误：${e.message}}。请检查是否赋予本应用文件权限。")
+                            }
+                        })
+                    }
+                } catch (e: Exception) {
+                    toast("导入错误：${e.message}}。请检查是否赋予本应用文件权限。")
                 }
             }
         }

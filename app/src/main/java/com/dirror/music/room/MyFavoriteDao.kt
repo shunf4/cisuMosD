@@ -20,4 +20,9 @@ interface MyFavoriteDao {
     @Query("delete from MyFavoriteData where id = :id")
     fun deleteById(id: String): Int
 
+    @Query("delete from MyFavoriteData")
+    fun clear(): Int
+
+    @Insert
+    fun insertBatch(myFavoriteDataList: List<MyFavoriteData>)
 }

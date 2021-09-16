@@ -4,7 +4,12 @@ import com.dirror.music.MyApp
 import com.dirror.music.music.standard.data.StandardSongData
 import com.dirror.music.room.MyFavoriteData
 import com.dirror.music.util.toast
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import org.jetbrains.annotations.TestOnly
+import java.io.Reader
+import java.io.Writer
+import java.lang.Exception
 import kotlin.concurrent.thread
 
 /**
@@ -63,6 +68,41 @@ object MyFavorite {
                 exist.invoke(true)
             } else {
                 exist.invoke(false)
+            }
+        }
+    }
+
+    fun clear(success: () -> Unit) {
+        thread {
+            myFavoriteDao.clear()
+            success.invoke()
+        }
+    }
+
+    fun import(reader: Reader, success: (Int) -> Unit, fail: (Exception) -> Unit) {
+        thread {
+            try {
+                var list = Gson().fromJson<List<StandardSongData>>(reader, object : TypeToken<List<StandardSongData>>() {}.type)
+                val currentAll = myFavoriteDao.loadAll().map { it.songData.id }
+                list = list.filter { it.id !in currentAll }
+                // myFavoriteDao.clear()
+                myFavoriteDao.insertBatch(list.map { MyFavoriteData(it) })
+                success.invoke(list.size)
+            } catch (e: Exception) {
+                fail.invoke(e)
+            }
+        }
+
+    }
+
+    fun export(writer: Writer, success: (Int) -> Unit, fail: (Exception) -> Unit) {
+        thread {
+            try {
+                val list = myFavoriteDao.loadAll().map { it.songData }
+                Gson().toJson(list, writer)
+                success.invoke(list.size)
+            } catch (e: Exception) {
+                fail.invoke(e)
             }
         }
     }

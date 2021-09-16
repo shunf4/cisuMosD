@@ -134,4 +134,10 @@
     <string name="similarSongs">Similar Songs</string>
     <string name="similarPlaylists">Similar Playlists</string>
     <string name="album">Album</string>
+    <string name="sync">Synchronization</string>
+    <string name="sync_to_file">Local liked playlist synchronization file\'s relative path (e.g. Documents/1.json)</string>
+    <string name="sync_import">Sync with file (Import)</string>
+    <string name="sync_export">Sync with file (Export)</string>
+    <string name="confirm_remove_all_in_local_favorite">Sure to clear local favorite?</string>
+    <string name="clear_local_favorite">Clear local favorite</string>
 </resources>

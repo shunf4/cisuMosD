@@ -31,10 +31,12 @@ import android.content.IntentFilter
 import android.graphics.drawable.Drawable
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
+import androidx.core.view.marginBottom
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -222,6 +224,9 @@ class MainActivity : BaseActivity() {
             }
             binding.blurViewPlay.updateLayoutParams<ConstraintLayout.LayoutParams> {
                 height = 52.dp() + it
+            }
+            binding.viewPager2.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = it
             }
         })
     }

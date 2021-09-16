@@ -227,6 +227,32 @@
             tools:ignore="VectorDrawableCompat"
             android:contentDescription="@string/search" />
 
+        <ImageView
+            android:id="@+id/ivImport"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivSearch"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/outline_file_download_24"
+            tools:ignore="VectorDrawableCompat"
+            android:visibility="gone"
+            android:contentDescription="@string/sync_import" />
+
+        <ImageView
+            android:id="@+id/ivExport"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivImport"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/outline_file_upload_24"
+            tools:ignore="VectorDrawableCompat"
+            android:visibility="gone"
+            android:contentDescription="@string/sync_export" />
+
     </com.dirror.music.widget.TitleBarLayout>
 
     <include

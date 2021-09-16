@@ -1,17 +1,24 @@
 package com.dirror.music.ui.activity
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.provider.MediaStore
 import android.view.View
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.ContextThemeWrapper
 import com.dirror.music.MyApp.Companion.mmkv
 import com.dirror.music.MyApp.Companion.musicController
+import com.dirror.music.R
 import com.dirror.music.databinding.ActivitySettingsBinding
+import com.dirror.music.music.local.MyFavorite
 import com.dirror.music.ui.base.BaseActivity
 import com.dirror.music.ui.live.NeteaseCloudMusicApiActivity
 import com.dirror.music.util.*
 import com.dirror.music.util.cache.ACache
 import com.dirror.music.util.cache.CommonCacheInterceptor
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -165,6 +172,41 @@ class SettingsActivity : BaseActivity() {
 
             itemNeteaseCloudMusicApi.setOnClickListener {
                 startActivity(Intent(this@SettingsActivity, NeteaseCloudMusicApiActivity::class.java))
+            }
+
+            itemSync.setOnClickListener {
+                val syncPathInput = EditText(ContextThemeWrapper(this@SettingsActivity, R.style.Widget_AppCompat_EditText)).apply {
+                    setText(mmkv.decodeString(Config.SYNC_FILE_PATH, ""))
+                }
+
+                AlertDialog.Builder(ContextThemeWrapper(this@SettingsActivity, R.style.CustomBottomSheetDialogTheme))
+                    .setMessage(R.string.sync_to_file)
+                    .setView(syncPathInput)
+                    .setPositiveButton(android.R.string.ok, object : DialogInterface.OnClickListener {
+                        override fun onClick(p0: DialogInterface?, p1: Int) {
+                            mmkv.encode(Config.SYNC_FILE_PATH, syncPathInput.text.toString())
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, object : DialogInterface.OnClickListener {
+                        override fun onClick(p0: DialogInterface?, p1: Int) {}
+                    })
+                    .show()
+            }
+
+            itemClearLocalFavorite.setOnClickListener {
+                AlertDialog.Builder(ContextThemeWrapper(this@SettingsActivity, R.style.CustomBottomSheetDialogTheme))
+                    .setMessage(R.string.confirm_remove_all_in_local_favorite)
+                    .setPositiveButton(android.R.string.ok, object : DialogInterface.OnClickListener {
+                        override fun onClick(p0: DialogInterface?, p1: Int) {
+                            MyFavorite.clear { runOnUiThread {
+                                toast("已清除")
+                            } }
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, object : DialogInterface.OnClickListener {
+                        override fun onClick(p0: DialogInterface?, p1: Int) {}
+                    })
+                    .show()
             }
 
             switcherAutoChangeResource.setOnCheckedChangeListener { mmkv.encode(Config.AUTO_CHANGE_RESOURCE, it) }

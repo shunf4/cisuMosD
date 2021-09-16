@@ -109,4 +109,6 @@ object Config {
 
     //是否自动换源播放
     const val AUTO_CHANGE_RESOURCE = "boolean_auto_change_resource"
+
+    const val SYNC_FILE_PATH = "sync_file_path"
 }
