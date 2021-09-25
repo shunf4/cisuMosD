@@ -141,8 +141,9 @@ class SongPlaylistViewModel : ViewModel() {
                 withContext(Dispatchers.Main) {
                     if (packed.songs.isEmpty()) {
                         toast("歌单内容获取失败")
+                    } else {
+                        songList.value = packed.songs
                     }
-                    songList.value = packed.songs
                     Log.d(TAG, "getPlaylist finished, isCache:${packed.isCache}, size:${packed.songs.size}")
                 }
                 if (useCache && packed.isCache) {
