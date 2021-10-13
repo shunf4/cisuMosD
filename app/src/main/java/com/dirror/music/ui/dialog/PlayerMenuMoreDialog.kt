@@ -3,7 +3,7 @@ package com.dirror.music.ui.dialog
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.databinding.DialogPlayMoreBinding
 import com.dirror.music.manager.User
@@ -32,7 +32,7 @@ class PlayerMenuMoreDialog(context: Context, menuItemCallback: (Int) -> Unit) : 
 
     override fun initView() {
 
-        MyApp.musicController.value?.getPlayingSongData()?.value?.let { it ->
+        App.musicController.value?.getPlayingSongData()?.value?.let { it ->
             binding.tvSongName.text = it.name
             song = it
         }
@@ -48,7 +48,7 @@ class PlayerMenuMoreDialog(context: Context, menuItemCallback: (Int) -> Unit) : 
                     song?.let {
                         when (it.source) {
                             SOURCE_NETEASE -> {
-                                MyApp.cloudMusicManager.likeSong(it.id?:"", {
+                                App.cloudMusicManager.likeSong(it.id?:"", {
                                     toast("添加到我喜欢成功")
                                     dismiss()
                                 }, {
@@ -66,7 +66,7 @@ class PlayerMenuMoreDialog(context: Context, menuItemCallback: (Int) -> Unit) : 
             }
             // 歌曲信息
             itemSongInfo.setOnClickListener {
-                MyApp.musicController.value?.getPlayingSongData()?.value?.let { it1 ->
+                App.musicController.value?.getPlayingSongData()?.value?.let { it1 ->
                     SongInfoDialog(context, it1).show()
                 }
                 dismiss()

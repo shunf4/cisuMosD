@@ -41,7 +41,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.dirror.music.MyApp
+import com.dirror.music.App
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivityMainBinding
 import com.dirror.music.manager.ActivityCollector
@@ -143,7 +143,7 @@ class MainActivity : BaseActivity() {
             }
         }.attach()
 
-        val select = MyApp.mmkv.decodeInt(Config.SELECT_FRAGMENT, 0)
+        val select = App.mmkv.decodeInt(Config.SELECT_FRAGMENT, 0)
         binding.viewPager2.setCurrentItem(select, false)
 
         ViewPager2Util.changeToNeverMode(binding.viewPager2)
@@ -167,20 +167,19 @@ class MainActivity : BaseActivity() {
             viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    MyApp.mmkv.encode(Config.SELECT_FRAGMENT, position)
+                    App.mmkv.encode(Config.SELECT_FRAGMENT, position)
                 }
             })
             // 侧滑
             with(menuMain) {
                 itemSponsor.setOnClickListener {
-                    // startActivity(Intent(this@MainActivity, SponsorActivity::class.java))
-                    MyApp.activityManager.startWebActivity(this@MainActivity, AboutActivity.SPONSOR)
+                    App.activityManager.startWebActivity(this@MainActivity, AboutActivity.SPONSOR)
                 }
                 itemSwitchAccount.setOnClickListener {
-                    MyApp.activityManager.startLoginActivity(this@MainActivity)
+                    App.activityManager.startLoginActivity(this@MainActivity)
                 }
                 itemSettings.setOnClickListener {
-                    MyApp.activityManager.startSettingsActivity(this@MainActivity)
+                    App.activityManager.startSettingsActivity(this@MainActivity)
                 }
                 // 反馈
                 itemFeedback.setOnClickListener {
@@ -190,9 +189,8 @@ class MainActivity : BaseActivity() {
                     startActivity(Intent(this@MainActivity, AboutActivity::class.java))
                 }
                 itemExitApp.setOnClickListener {
-                    MyApp.musicController.value?.stopMusicService()
+                    App.musicController.value?.stopMusicService()
                     ActivityCollector.finishAll()
-
                     object : Thread() {
                         override fun run() {
                             super.run()
@@ -200,7 +198,6 @@ class MainActivity : BaseActivity() {
                             Secure.killMyself()
                         }
                     }.start()
-
                 }
             }
         }

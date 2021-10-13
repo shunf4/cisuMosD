@@ -8,8 +8,8 @@ import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
-import com.dirror.music.MyApp.Companion.mmkv
-import com.dirror.music.MyApp.Companion.musicController
+import com.dirror.music.App.Companion.mmkv
+import com.dirror.music.App.Companion.musicController
 import com.dirror.music.R
 import com.dirror.music.databinding.ActivitySettingsBinding
 import com.dirror.music.music.local.MyFavorite
