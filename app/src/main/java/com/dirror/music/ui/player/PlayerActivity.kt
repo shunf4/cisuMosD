@@ -448,7 +448,7 @@ class PlayerActivity : SlideBackActivity() {
             // 下载
             ivDownload.setOnClickListener {
                 singleClick {
-                    val ds = MyApp.musicController.value?.getDataSource()
+                    val ds = App.musicController.value?.getDataSource()
                     if (ds == null) {
                         Toast.makeText(this@PlayerActivity, "Please play music first so that URL is retrieved", Toast.LENGTH_SHORT).show()
                         return@singleClick
@@ -470,7 +470,7 @@ class PlayerActivity : SlideBackActivity() {
                         return@singleClick
                     }
                     val dm = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-                    val songData = MyApp.musicController.value?.getPlayingSongData()?.value
+                    val songData = App.musicController.value?.getPlayingSongData()?.value
                     val artistNamesList = songData?.artists?.map { (it.name ?: "").replace(Regex.fromLiteral("[\\\\/]"), "") }
                     val fileNameWithoutExtension = artistNamesList?.joinToString(", ") + " - " + songData?.name
                     val filePath = "DsoMusic/$fileNameWithoutExtension.mp3"
