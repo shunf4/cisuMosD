@@ -35,23 +35,23 @@ object Secure {
      */
     fun isSecure(): Boolean {
         return true
-        if (isDebug()) {
-            // toast("DEBUG 模式")
-            if (SKIP_DEBUG_MODE) {
-                // toast("跳过安全检查")
-                return true
-            }
-        }
-        // 签名错误
-        if (!isSignatureCorrect()) {
-            return false
-        }
-        // 检查抓包
-        if (!checkProxy()) {
-            return false
-        }
-
-        return true
+//        if (isDebug()) {
+//            // toast("DEBUG 模式")
+//            if (SKIP_DEBUG_MODE) {
+//                // toast("跳过安全检查")
+//                return true
+//            }
+//        }
+//        // 签名错误
+//        if (!isSignatureCorrect()) {
+//            return false
+//        }
+//        // 检查抓包
+//        if (!checkProxy()) {
+//            return false
+//        }
+//
+//        return true
     }
 
     /**
