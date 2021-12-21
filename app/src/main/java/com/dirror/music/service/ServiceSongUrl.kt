@@ -10,6 +10,8 @@ import com.dirror.music.music.netease.SongUrl
 import com.dirror.music.music.qq.PlayUrl
 import com.dirror.music.music.standard.SearchLyric
 import com.dirror.music.music.standard.data.*
+import com.dirror.music.plugin.PluginConstants
+import com.dirror.music.plugin.PluginSupport
 import com.dirror.music.util.Api
 import com.dirror.music.util.Config
 import com.dirror.music.util.runOnMainThread
@@ -34,6 +36,12 @@ object ServiceSongUrl {
     }
 
     inline fun getUrl(song: StandardSongData, crossinline success: (Any?) -> Unit) {
+        PluginSupport.setSong(song)
+        val pluginUrl = PluginSupport.apply(PluginConstants.POINT_SONG_URL)
+        if (pluginUrl != null && pluginUrl is String) {
+            success.invoke(pluginUrl)
+            return
+        }
         when (song.source) {
             SOURCE_LOCAL -> {
                 GlobalScope.launch {

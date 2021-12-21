@@ -34,6 +34,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.activity.viewModels
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.marginBottom
@@ -54,6 +55,7 @@ import com.dirror.music.ui.main.viewmodel.MainViewModel
 import com.dirror.music.util.*
 import com.dirror.music.util.cache.ACache
 import com.dirror.music.util.dp
+import com.google.accompanist.appcompattheme.AppCompatTheme
 import com.google.android.material.tabs.TabLayoutMediator
 import eightbitlab.com.blurview.RenderScriptBlur
 import kotlin.concurrent.thread
@@ -83,6 +85,14 @@ class MainActivity : BaseActivity() {
             mainViewModel.statusBarHeight.value = insets.systemWindowInsetTop
             mainViewModel.navigationBarHeight.value = insets.systemWindowInsetBottom
             insets
+        }
+        binding.composeViewMenu.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                AppCompatTheme {
+                    MainMenu(this@MainActivity, mainViewModel)
+                }
+            }
         }
         miniPlayer = binding.miniPlayer
         setContentView(binding.root)
@@ -170,36 +180,6 @@ class MainActivity : BaseActivity() {
                     App.mmkv.encode(Config.SELECT_FRAGMENT, position)
                 }
             })
-            // 侧滑
-            with(menuMain) {
-                itemSponsor.setOnClickListener {
-                    App.activityManager.startWebActivity(this@MainActivity, AboutActivity.SPONSOR)
-                }
-                itemSwitchAccount.setOnClickListener {
-                    App.activityManager.startLoginActivity(this@MainActivity)
-                }
-                itemSettings.setOnClickListener {
-                    App.activityManager.startSettingsActivity(this@MainActivity)
-                }
-                // 反馈
-                itemFeedback.setOnClickListener {
-                    startActivity(Intent(this@MainActivity, FeedbackActivity::class.java))
-                }
-                itemAbout.setOnClickListener {
-                    startActivity(Intent(this@MainActivity, AboutActivity::class.java))
-                }
-                itemExitApp.setOnClickListener {
-                    App.musicController.value?.stopMusicService()
-                    ActivityCollector.finishAll()
-                    object : Thread() {
-                        override fun run() {
-                            super.run()
-                            sleep(500)
-                            Secure.killMyself()
-                        }
-                    }.start()
-                }
-            }
         }
     }
 
@@ -211,16 +191,16 @@ class MainActivity : BaseActivity() {
             (binding.viewPager2.layoutParams as ConstraintLayout.LayoutParams).apply {
                 topMargin = 56.dp() + it
             }
-            (binding.menuMain.llMenu.layoutParams as FrameLayout.LayoutParams).apply {
-                topMargin = it + 8.dp()
-            }
+//            (binding.menuMain.llMenu.layoutParams as FrameLayout.LayoutParams).apply {
+//                topMargin = it + 8.dp()
+//            }
         })
         mainViewModel.navigationBarHeight.observe(this, {
             binding.miniPlayer.root.updateLayoutParams<ConstraintLayout.LayoutParams> {
                 bottomMargin = it
             }
             binding.blurViewPlay.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                height = 52.dp() + it
+                height = 64.dp() + it
             }
             binding.viewPager2.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 bottomMargin = it
